@@ -9,7 +9,7 @@ Arroyo control plane. This is the easiest way to get a production quality Arroyo
 See the [docs](https://doc.arroyo.dev/deployment/kubernetes) for full information on how to use this helm chart.
 
 Each version of the helm chart is associated by default with a particular release of Arroyo. The latest release
-is [0.6.0](https://www.arroyo.dev/blog/arroyo-0-6-0).
+is [0.10.3](https://www.arroyo.dev/blog/arroyo-0-10-0).
 
 ## Quickstart
 
@@ -19,18 +19,23 @@ configuration file:
 _values.yaml_
 
 ```yaml
-outputDir: "/tmp/arroyo-test"
+artifactUrl: "/tmp/arroyo/artifacts"
+checkpointUrl: "/tmp/arroyo/checkpoints"
 
 volumes:
-  - name: checkpoints
+  - name: data
     hostPath:
-      path: /tmp/arroyo-test
+      path: /tmp/arroyo 
       type: DirectoryOrCreate
 
 volumeMounts:
-  - name: checkpoints
-    mountPath: /tmp/arroyo-test
+  - name: data
+    mountPath: /tmp/arroyo
 ```
+
+(Note that if running on a distributed kubernetes cluster, you will need some sort of shared storage for checkpoints
+and artifacts, for example an object store like S3 or GCS. See the [deployment](https://doc.arroyo.dev/deployment/overview)
+docs for more details.)
 
 Then you can create the cluster with
 
@@ -48,10 +53,10 @@ $ open "http://$(kubectl get service/arroyo-api -o jsonpath='{.spec.clusterIP}')
 or if that doesn't work, by proxying the service:
 
 ```
-$ kubectl port-forward service/arroyo-api 8000:80 8001:8001
+$ kubectl port-forward service/arroyo-api 5115:80
 ```
 
-and opening http://localhost:8000.
+and opening http://localhost:5115.
 
 
 ## Configuration

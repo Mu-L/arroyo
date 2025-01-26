@@ -2,25 +2,13 @@
 
 nameOverride: ""
 fullnameOverride: ""
+clusterDomain: cluster.local
+
+image:
+  repository: ghcr.io/arroyosystems/arroyo
+  tag: "tip"
+imagePullPolicy: IfNotPresent
 imagePullSecrets: []
-
-# service-specific configuration
-api:
-  replicas: 1x
-  resources:
-    limits: {}
-    requests:
-      memory: 256Mi
-      cpu: 200m
-  image:
-    repository: ghcr.io/arroyosystems/arroyo-services
-    pullPolicy: IfNotPresent
-    tag: "0.6.0"
-  service:
-    type: ClusterIP
-    httpPort: 80
-    adminPort: 8001
-
 
 controller:
   resources:
@@ -28,40 +16,20 @@ controller:
     requests:
       memory: 256Mi
       cpu: 500m
-  image:
-    repository: ghcr.io/arroyosystems/arroyo-services
-    pullPolicy: IfNotPresent
-    tag: "0.6.0"
-  service:
-    grpcPort: 9190
-    adminPort: 9191
 
-compiler:
-  replicas: 1
-  resources:
-    limits: {}
-    requests:
-      memory: 2048Mi
-      cpu: 1000m
-  image:
-    repository: ghcr.io/arroyosystems/arroyo-compiler
-    pullPolicy: IfNotPresent
-    tag: "0.6.0"
   service:
-    grpcPort: 9000
-    adminPort: 9001
+    grpcPort: 5116
+    compilerPort: 5117
+    adminPort: 5114
+    httpPort: 80
 
 worker:
   resources:
     limits: {}
     requests:
-      memory: 200Mi
-      cpu: 400m
-  slots: 4
-  image:
-    repository: ghcr.io/arroyosystems/arroyo-worker
-    pullPolicy: IfNotPresent
-    tag: "0.6.0"
+      memory: 490Mi
+      cpu: 900m
+  slots: 16
 
 postgresql:
   # set to true to deploy a postgres instance in-cluster
@@ -91,30 +59,9 @@ postgresql:
 
 
 prometheus:
-  deploy: true
-  endpoint: ""
   # set to true to enable prometheus annotations on Arroyo cluster resources; if false,
   # you will need to configure prometheus separately to discover Arroyo pods
   setAnnotations: true
-  # the rate interval that should be used for queries; should be at least 4x the scrape
-  # interval configured on prometheus -- setting this (and your scrape interval) to a
-  # lower value will improve metric freshness and resolution
-  queryRate: "15s"
-
-  # Prometheus configuration
-  server:
-    global:
-      scrape_interval: 5s
-      scrape_timeout: 5s
-
-  alertmanager:
-    enabled: false
-  kube-state-metrics:
-    enabled: false
-  prometheus-node-exporter:
-    enabled: false
-  prometheus-pushgateway:
-    enabled: false
 
 s3:
   region: ""
@@ -151,9 +98,7 @@ securityContext: {}
 
 
 
-apiResources: {}
 controllerResources: {}
-compilerResources: {}
 
 nodeSelector: {}
 
@@ -165,4 +110,5 @@ volumes: []
 volumeMounts: []
 
 existingConfigMap: ""
-  
+
+env: []  
