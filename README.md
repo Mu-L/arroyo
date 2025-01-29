@@ -1,6 +1,6 @@
 
 <h1 align="center">
-    <img src="docs/images/arroyo_logo.png" width="400px" alt="Arroyo" />
+    <img src="https://raw.githubusercontent.com/ArroyoSystems/arroyo/760aabdbdb019d95f0c5ebb60933233aa735f830/images/arroyo_logo.png" width="400px" alt="Arroyo" />
 </h1>
 
 
@@ -36,7 +36,7 @@ on both bounded and unbounded sources, emitting results as soon as they are avai
 
 In short: Arroyo lets you ask complex questions of high-volume real-time data with subsecond results.
 
-![running job](docs/images/header_image.png)
+![running job](https://raw.githubusercontent.com/ArroyoSystems/arroyo/760aabdbdb019d95f0c5ebb60933233aa735f830/images/header_image.png)
 
 ## Features
 
@@ -71,22 +71,36 @@ There are already a number of existing streaming engines out there, including [A
 * _Designed for non-experts_: Arroyo cleanly separates the pipeline APIs from its internal implementation. You don't
     need to be a streaming expert to build real-time data pipelines.
 
-## Getting Started
+## Installing
 
-You can get started with a single node Arroyo cluster by running the following docker command:
+Arroyo ships as a single binary. You can install it locally on MacOS using Homebrew
 
-```
-$ docker run -p 8000:8000 ghcr.io/arroyosystems/arroyo-single:latest
-```
-
-or if you have Cargo installed, you can use the `arroyo` cli:
-
-```
-$ cargo install arroyo
-$ arroyo start
+```shellsession
+brew install arroyosystems/tap/arroyo
 ```
 
-Then, load the Web UI at http://localhost:8000.
+or on MacOS or Linux with this script:
+
+```shellsession
+curl -LsSf https://arroyo.dev/install.sh | sh
+```
+
+or you can download a binary for your platform from the [releases page](https://github.com/ArroyoSystems/arroyo/releases).
+
+Once you have Arroyo installed, start a cluster with
+
+```shellsession
+$ arroyo cluster
+```
+
+You can also run a cluster in Docker, with
+
+```shellsession
+docker run -p 5115:5115 \
+      ghcr.io/arroyosystems/arroyo:latest
+```
+
+Then, load the Web UI at http://localhost:5115.
 
 For a more in-depth guide, see the [getting started guide](https://doc.arroyo.dev/getting-started).
 
@@ -104,7 +118,7 @@ to get started, and reach out to the team on [discord](https://discord.gg/cjCr5r
 * [GitHub issues](https://github.com/ArroyoSystems/arroyo/issues) &mdash; bugs and feature requests
 * [Arroyo Blog](https://arroyo.dev/blog) &mdash; updates from the Arroyo team
 
-## Arroyo Cloud
+## Arroyo Enterprise
 
-Don't want to self-host? Arroyo Systems provides fully-managed cloud hosting for Arroyo. Sign up
-[here](https://arroyo.dev).
+Running in production? Arroyo Systems provides [enterprise features and support](https://www.arroyo.dev/enterprise) for
+Arroyo users. Get in touch at [support@arroyo.systems](mailto:support@arroyo.systems).
